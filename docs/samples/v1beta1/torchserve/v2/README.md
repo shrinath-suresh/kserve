@@ -30,11 +30,17 @@ MODEL_NAME=mnist
 SERVICE_HOSTNAME=$(kubectl get inferenceservice torchserve-v2 -o jsonpath='{.status.url}' | cut -d "/" -f 3)
 ```
 
+Use the following image converters to create input request for mnist
+
 Use [image converter](./tensor_conv/README.md) to create input request for mnist. 
-For other models please refer to [input request](https://github.com/pytorch/serve/tree/master/kubernetes/kfserving/kf_request_json)
+
+1. [Tensor input](./tensor_conv/README.md) 
+2. [Bytes input](./bytes_conv/README.md)
+
+For other models please refer to [input request](https://github.com/pytorch/serve/tree/master/kubernetes/kserve/kf_request_json)
 
 ```bash
-curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/${MODEL_NAME}/infer -d @./mnist_v2.json
+curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/${MODEL_NAME}/infer -d @./tensor_conv/mnist_v2.json
 ```
 
 Expected Output
@@ -76,7 +82,7 @@ Your can refer to [Captum Tutorial](https://captum.ai/tutorials/) for more examp
 ### Explain Request
 
 ```bash
-curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/mnist/explain -d @./mnist_v2.json
+curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/mnist/explain -d @./tensor_conv/mnist_v2.json
 ```
 
 Expected Output
