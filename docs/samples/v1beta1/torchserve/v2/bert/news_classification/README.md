@@ -2,6 +2,8 @@
 
 This example finetunes HuggingFace Bert model to classify AG news dataset. The example is adapted from [here](https://github.com/mlflow/mlflow-torchserve/tree/master/examples/E2EBert)
 
+Copy the example files from [here](https://github.com/mlflow/mlflow-torchserve/tree/master/examples/E2EBert)
+
 To train the model run the following command
 
 ```
@@ -17,6 +19,8 @@ python news_classifier.py --max_epochs 5 --num_samples 50000
 Once the training is completed `state_dict.pth` file will be created.
 
 ## Packaging the model
+
+Choose the handler from the bytes/tensor based on the input data type (bytes or tensor)
 
 Run the following command to create mar file
 
@@ -48,10 +52,10 @@ model_snapshot={"name":"startup.cfg","modelCount":1,"models":{"bert":{"1.0":{"de
 
 ## Preparing input
 
-Sample input for this example is provided in [bert_v2.json](bert_v2.json)
-
+Sample bytes input for this example is provided in [bert_v2.json](bytes/bert_v2.json)
 Update the input text under inputs --> data tag
 
+Sample tensor input for this example is provided in [bert_v2.json](tensor/bert_v2.json)
 
 ## Deploying the model
 
@@ -74,7 +78,7 @@ python __main__.py
 Run the following command in local machine
 
 ```
-curl -v -H "ContentType: application/json" http://localhost:8080/v1/models/bert:predict -d @./bert_v2.json
+curl -v -H "ContentType: application/json" http://localhost:8080/v2/models/bert/infer -d @./bert_v2.json
 ```
 
 and the sample response is as below

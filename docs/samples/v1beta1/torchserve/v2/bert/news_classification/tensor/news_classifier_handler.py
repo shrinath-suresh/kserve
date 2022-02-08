@@ -22,7 +22,7 @@ import torch
 import torch.nn.functional as F
 from transformers import BertTokenizer
 from ts.torch_handler.base_handler import BaseHandler
-from bert_train import BertNewsClassifier
+from news_classifier import BertNewsClassifier
 from wrapper import AGNewsmodelWrapper
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,6 @@ logger = logging.getLogger(__name__)
 
 class NewsClassifierHandler(BaseHandler):
     """NewsClassifierHandler class.
-
     This handler takes a review / sentence and returns the label as
     either world / sports / business /sci-tech.
     """
@@ -46,7 +45,6 @@ class NewsClassifierHandler(BaseHandler):
     def initialize(self, ctx):
         """First try to load torchscript else load eager mode state_dict based
         model.
-
         Args:
              ctx: System properties
         """
@@ -58,13 +56,13 @@ class NewsClassifierHandler(BaseHandler):
         model_dir = properties.get("model_dir")
 
         # Read model serialize/pt file
-        model_pt_path = os.path.join(model_dir, "bert.pth")
+        model_pt_path = os.path.join(model_dir, "state_dict.pth")
         # Read model definition file
-        model_def_path = os.path.join(model_dir, "bert_train.py")
+        model_def_path = os.path.join(model_dir, "news_classifier.py")
         if not os.path.isfile(model_def_path):
             raise RuntimeError("Missing the model definition file")
 
-        self.vocab_file = os.path.join(model_dir, "bert-base-uncased-vocab.txt")
+        self.vocab_file = os.path.join(model_dir, "bert_base_uncased_vocab.txt")
         if not os.path.isfile(self.vocab_file):
             raise RuntimeError("Missing the vocab file")
 
@@ -82,10 +80,8 @@ class NewsClassifierHandler(BaseHandler):
     def preprocess(self, data):
         """Receives text in form of json and converts it into an encoding for
         the inference stage.
-
         Args:
             data: Input to be passed through the layers for prediction
-
         Returns:
             output - preprocessed encoding
         """
@@ -105,7 +101,6 @@ class NewsClassifierHandler(BaseHandler):
         it is belong to world / sports / business /sci-tech.
         Args:
              encoding: Input encoding to be passed through the layers for prediction
-
         Returns:
              output - predicted output
         """
@@ -116,10 +111,8 @@ class NewsClassifierHandler(BaseHandler):
 
     def postprocess(self, inference_output):
         """Does postprocess after inference to be returned to user.
-
         Args:
             inference_output: Output of inference
-
         Returns:
              output - Output after post processing
         """
@@ -162,7 +155,6 @@ class NewsClassifierHandler(BaseHandler):
 
     def summarize_attributions(self, attributions):
         """Summarises the attribution across multiple runs.
-
         Args:
             attributions ([list): attributions from the Integrated Gradients
         Returns:
@@ -174,7 +166,6 @@ class NewsClassifierHandler(BaseHandler):
 
     def explain_handle(self, model_wrapper, text, target=1):
         """Captum explanations handler.
-
         Args:
             data_preprocess (Torch Tensor): Preprocessed data to be used for captum
             raw_data (list): The unprocessed data to get target from the request
