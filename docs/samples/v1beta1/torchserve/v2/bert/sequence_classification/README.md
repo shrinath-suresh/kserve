@@ -17,7 +17,7 @@ torch-model-archiver --model-name BERTSeqClassification --version 1.0 \
 ```
 
 Note: In case of bytes input, the [custom handler](https://github.com/pytorch/serve/blob/master/examples/Huggingface_Transformers/Transformer_handler_generalized.py) can be used without any change.
-if the bert input is of type tensor, use the custom handler placed inside tensor directory.
+if the bert input is of type tensor, use the [custom handler](tensor/Transformer_handler_generalized.py) placed inside tensor directory.
 
 The command will create `BERTSeqClassification.mar` file in current directory
 
@@ -63,18 +63,33 @@ Start Kserve
 python __main__.py
 ```
 
-## Sample request and response
+## Sample request and response for bytes input
 
 Run the following command in local machine
 
 ```
-curl -v -H "ContentType: application/json" http://localhost:8080/v2/models/bert/infer -d @./bert_v2.json
+curl -v -H "ContentType: application/json" http://localhost:8080/v2/models/bert/infer -d @./bytes/bert_v2.json
 ```
 
 and the sample response is as below
 
 ```
 {"id": "d3b15cad-50a2-4eaf-80ce-8b0a428bd298", "model_name": "BERTSeqClassification", "model_version": "1.0", "outputs": [{"name": "predict", "shape": [], "datatype": "BYTES", "data": ["Not Accepted"]}]}
+```
+
+
+## Sample request and response for tensor input
+
+Run the following command in local machine
+
+```
+curl -v -H "ContentType: application/json" http://localhost:8080/v2/models/bert/infer -d @./tensor/bert_v2.json
+```
+
+and the sample response is as below
+
+```
+{"id": "d3b15cad-50a2-4eaf-80ce-8b0a428bd298", "model_name": "BERTSeqClassification", "model_version": "1.0", "outputs": [{"name": "predict", "shape": [1], "datatype": "INT64", "data": [0]}]}
 ```
 
 
