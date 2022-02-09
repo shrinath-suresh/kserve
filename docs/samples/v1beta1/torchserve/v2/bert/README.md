@@ -16,6 +16,8 @@ torch-model-archiver --model-name BERTSeqClassification --version 1.0 \
 --extra-files "Transformer_model/config.json,./setup_config.json,./Seq_classification_artifacts/index_to_name.json"
 ```
 
+Note: Use the custom handler file from [here](sequence_classification/tensor/Transformer_handler_generalized.py) for the tensor input
+
 ## Create the InferenceService
 
 Apply the CRD
@@ -38,7 +40,7 @@ The first step is to [determine the ingress IP and ports](../../../../../README.
 MODEL_NAME=torchserve-bert-v2
 SERVICE_HOSTNAME=$(kubectl get inferenceservice ${MODEL_NAME} -n <namespace> -o jsonpath='{.status.url}' | cut -d "/" -f 3)
 
-curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/BERTSeqClassification/infer -d ./bert_v2.json
+curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/BERTSeqClassification/infer -d ./sequence_classification/bytes/bert_v2.json
 ```
 
 Expected Output
@@ -66,7 +68,7 @@ Expected Output
 < server: istio-envoy
 <
 * Connection #0 to host torchserve-bert.kserve-test.example.com left intact
-{"id": "97fa9c9a-1c84-4ec0-b181-ff1c733e78bc", "model_name": "bert_test", "model_version": "1", "outputs": [{"name": "predict", "shape": [1], "datatype": "INT64", "data": [2]}]}
+{"id": "d3b15cad-50a2-4eaf-80ce-8b0a428bd298", "model_name": "BERTSeqClassification", "model_version": "1.0", "outputs": [{"name": "predict", "shape": [], "datatype": "BYTES", "data": ["Not Accepted"]}]}
 ```
 
 ## Captum Explanations
