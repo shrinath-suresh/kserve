@@ -12,7 +12,13 @@ In this example, we use a trained pytorch mnist model to predict handwritten dig
 Deploy the `InferenceService` with v2 protocol
 
 ```bash
-kubectl apply -f torchserve-v2.yaml
+kubectl apply -f mnist_tensor.yaml
+```
+
+For using bytes input
+
+```bash
+kubectl apply -f mnist_bytes.yaml
 ```
 
 Expected Output
