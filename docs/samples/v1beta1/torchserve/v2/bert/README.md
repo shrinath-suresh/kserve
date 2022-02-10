@@ -23,7 +23,13 @@ Note: Use the custom handler file from [here](sequence_classification/tensor/Tra
 Apply the CRD
 
 ```bash
-kubectl apply -f bert.yaml
+kubectl apply -f bert_tensor.yaml
+```
+
+For bytes input run
+
+```bash
+kubectl apply -f bert_bytes.yaml
 ```
 
 Expected Output
