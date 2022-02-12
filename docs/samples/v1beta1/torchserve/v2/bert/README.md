@@ -8,28 +8,22 @@ on KServe.
 Clone [pytorch/serve](https://github.com/pytorch/serve) repository,
 navigate to `examples/Huggingface_Transformers` and follow the steps for creating the MAR file including serialized model and other dependent files.
 TorchServe supports both eager model and torchscript and here we save as the pretrained model. 
+
+Download the preprocess script from [here](Transformer_handler_generalized_v2.py)
  
 ```bash
 torch-model-archiver --model-name BERTSeqClassification --version 1.0 \
 --serialized-file Transformer_model/pytorch_model.bin \
---handler ./Transformer_handler_generalized.py \
---extra-files "Transformer_model/config.json,./setup_config.json,./Seq_classification_artifacts/index_to_name.json"
+--handler ./Transformer_handler_generalized_v2.py \
+--extra-files "Transformer_model/config.json,./setup_config.json,./Seq_classification_artifacts/index_to_name.json,./Transformer_handler_generalized.py"
 ```
-
-Note: Use the custom handler file from [here](sequence_classification/tensor/Transformer_handler_generalized.py) for the tensor input
 
 ## Create the InferenceService
 
 Apply the CRD
 
 ```bash
-kubectl apply -f bert_tensor.yaml
-```
-
-For bytes input run
-
-```bash
-kubectl apply -f bert_bytes.yaml
+kubectl apply -f bert.yaml
 ```
 
 Expected Output
