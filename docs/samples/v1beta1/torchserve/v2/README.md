@@ -12,19 +12,19 @@ In this example, we use a trained pytorch mnist model to predict handwritten dig
 Deploy the `InferenceService` with v2 protocol
 
 ```bash
-kubectl apply -f mnist_tensor.yaml
+kubectl apply -f mnist.yaml
 ```
 
-For using bytes input
+For deploying it in gpu
 
 ```bash
-kubectl apply -f mnist_bytes.yaml
+kubectl apply -f mnist_gpu.yaml
 ```
 
 Expected Output
 
 ```bash
-$inferenceservice.serving.kserve.io/torchserve-v2 created
+$inferenceservice.serving.kserve.io/torchserve-mnist-v2 created
 ```
 
 ## Inference with V2 REST Protocol
@@ -38,7 +38,7 @@ SERVICE_HOSTNAME=$(kubectl get inferenceservice torchserve-v2 -o jsonpath='{.sta
 
 Use the following image converters to create input request for mnist
 
-Use [image converter](./tensor_conv/README.md) to create input request for mnist. 
+Use image converter to create input request for mnist. 
 
 1. [Tensor input](./tensor_conv/README.md) 
 2. [Bytes input](./bytes_conv/README.md)
