@@ -33,7 +33,7 @@ The first step is to [determine the ingress IP and ports](https://kserve.github.
 
 ```bash
 MODEL_NAME=mnist
-SERVICE_HOSTNAME=$(kubectl get inferenceservice torchserve-v2 -o jsonpath='{.status.url}' | cut -d "/" -f 3)
+SERVICE_HOSTNAME=$(kubectl get inferenceservice torchserve-mnist-v2 -o jsonpath='{.status.url}' | cut -d "/" -f 3)
 ```
 
 Use the following image converters to create input request for mnist
@@ -46,6 +46,7 @@ Use image converter to create input request for mnist.
 For other models please refer to [input request](https://github.com/pytorch/serve/tree/master/kubernetes/kserve/kf_request_json)
 
 ```bash
+MODEL_NAME=mnist
 curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/${MODEL_NAME}/infer -d @./tensor_conv/mnist_v2.json
 ```
 
@@ -55,7 +56,7 @@ Expected Output
 *   Trying 52.89.19.61...
 * Connected to a881f5a8c676a41edbccdb0a394a80d6-2069247558.us-west-2.elb.amazonaws.com (52.89.19.61) port 80 (#0)
 > PUT /v2/models/mnist/infer HTTP/1.1
-> Host: torchserve-v2.kserve-test.example.com
+> Host: torchserve-mnist-v2.kserve-test.example.com
 > User-Agent: curl/7.47.0
 > Accept: */*
 > Content-Length: 167
@@ -97,7 +98,7 @@ Expected Output
 *   Trying 52.89.19.61...
 * Connected to a881f5a8c676a41edbccdb0a394a80d6-2069247558.us-west-2.elb.amazonaws.com (52.89.19.61) port 80 (#0)
 > PUT /v2/models/mnist/explain HTTP/1.1
-> Host: torchserve-v2.kserve-test.example.com
+> Host: torchserve-mnist-v2.kserve-test.example.com
 > User-Agent: curl/7.47.0
 > Accept: */*
 > Content-Length: 167
