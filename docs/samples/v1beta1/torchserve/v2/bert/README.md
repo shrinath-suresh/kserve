@@ -8,8 +8,13 @@ on KServe.
 Clone [pytorch/serve](https://github.com/pytorch/serve) repository,
 navigate to `examples/Huggingface_Transformers` and follow the steps for creating the MAR file including serialized model and other dependent files.
 TorchServe supports both eager model and torchscript and here we save as the pretrained model. 
-
 Download the preprocess script from [here](./sequence_classification/Transformer_handler_generalized_v2.py)
+
+Install transfomers - 4.6
+
+```
+pip install transformers==4.6.0
+```
  
 ```bash
 torch-model-archiver --model-name BERTSeqClassification --version 1.0 \
